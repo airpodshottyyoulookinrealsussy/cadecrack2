@@ -1,1 +1,1 @@
-$.hide-banner.$
+new banner feature!! btw i can edit this at any time
