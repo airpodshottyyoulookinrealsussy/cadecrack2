@@ -107,8 +107,8 @@
             background-color: orange;
             color: white;
             text-align: center;
-            padding: 5px 0;  /* short padding */
-            font-size: 16px;  /* font size */
+            padding: 5px 0;
+            font-size: 16px;
             font-weight: bold;
             position: absolute;
             top: 0;
@@ -125,11 +125,15 @@
         sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals"
         referrerpolicy="no-referrer">
     </iframe>
+
     
     <div class="url-container" id="urlBox">
         <span class="url-prefix">https://</span>
         <input type="text" id="urlInput" placeholder="example.com" onkeypress="handleKeyPress(event)">
     </div>
+
+    document.getElementById("urlBox").style.display = "none";
+
 
     <div class="buttons">
         <button class="fs-button" onclick="toggleFullscreen()">FULLSCREEN</button>
@@ -145,7 +149,7 @@
             fetch("https://raw.githubusercontent.com/airpodshottyyoulookinrealsussy/cadecrack2/refs/heads/main/banner.txt")
                 .then(response => response.text())
                 .then(text => {
-                    // if $.hide-banner.$ hide the banner
+                    // if $.hide-banner.$ hide banner
                     if (text.includes("$.hide-banner.$")) {
                         document.querySelector('.banner').style.display = 'none';  // hide banner whenever this text is displayed
                     } else {
