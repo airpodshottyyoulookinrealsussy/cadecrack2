@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Tab</title>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            font-family: 'Comic Sans MS', monospace;
+            transition: all 0.2s ease-in-out;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            background: url('https://static.wikia.nocookie.net/silly-cat/images/3/36/Ah_So_Cat.png/revision/latest?cb=20231003075048');
+            background-repeat: repeat;
+            animation: slideBackground 10s linear infinite;
+        }
+
+        @keyframes slideBackground {
+            from { background-position: 0 0; }
+            to { background-position: -500px 500px; }
+        }
+
+        iframe {
+            border: none;
+            width: 1050px;
+            height: 600px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .buttons {
+            margin-top: 15px;
+            display: flex;
+            gap: 15px;
+        }
+
+        button {
+            padding: 12px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            color: white;
+            border-radius: 8px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .fs-button { background: #444; }
+        .fs-button:hover { background: #666; transform: scale(1.05); }
+        .fs-button:active { background: #222; transform: scale(0.95); }
+
+        .if-button { background: #28a745; }
+        .if-button:hover { background: #34d058; transform: scale(1.05); }
+        .if-button:active { background: #1c7c31; transform: scale(0.95); }
+
+        .url-container {
+            display: none;
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            background: white;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .url-prefix {
+            background: #e0e0e0;
+            padding: 10px;
+            font-size: 16px;
+            color: #444;
+            border-right: 2px solid #ccc;
+            font-weight: 600;
+        }
+
+        #urlInput {
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            outline: none;
+            flex-grow: 1;
+            font-weight: 600;
+        }
+
+        #urlInput:focus {
+            box-shadow: 0 3px 10px rgba(52, 208, 88, 0.4);
+        }
+
+        /* banner styling */
+        .banner {
+            width: 100%;
+            background-color: orange;
+            color: white;
+            text-align: center;
+            padding: 5px 0;  /* short padding */
+            font-size: 16px;  /* font size */
+            font-weight: bold;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- banner loading -->
+    <div class="banner" id="bannerText">loading...</div>
+
+    <iframe id="embedFrame"
+        src="https://mescordapp.xyz/"
+        sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals"
+        referrerpolicy="no-referrer">
+    </iframe>
+    
+    <div class="url-container" id="urlBox">
+        <span class="url-prefix">https://</span>
+        <input type="text" id="urlInput" placeholder="example.com" onkeypress="handleKeyPress(event)">
+    </div>
+
+    <div class="buttons">
+        <button class="fs-button" onclick="toggleFullscreen()">FULLSCREEN</button>
+        <button class="if-button" onclick="toggleIframe()">EMBED</button>
+    </div>
+
+    <script>
+        let showingDiscord = true;
+        const discordURL = "https://mescordapp.xyz/";
+
+        // update banner text
+        function updateBannerText() {
+            fetch("https://raw.githubusercontent.com/airpodshottyyoulookinrealsussy/cadecrack2/refs/heads/main/banner.txt")
+                .then(response => response.text())
+                .then(text => {
+                    // if $.hide-banner.$ hide the banner
+                    if (text.includes("$.hide-banner.$")) {
+                        document.querySelector('.banner').style.display = 'none';  // hide banner whenever this text is displayed
+                    } else {
+                        document.getElementById('bannerText').innerText = text;  // update banner
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('bannerText').innerText = "banner failed to load, is your internet on?";
+                });
+        }
+
+        // fetch banner from pastebin
+        setInterval(updateBannerText, 25000);  // update every 10 seconds
+
+        // update banner
+        updateBannerText();
+
+        function toggleFullscreen() {
+            let iframe = document.getElementById("embedFrame");
+            if (iframe.requestFullscreen) {
+                iframe.requestFullscreen();
+            } else if (iframe.mozRequestFullScreen) {
+                iframe.mozRequestFullScreen();
+            } else if (iframe.webkitRequestFullscreen) {
+                iframe.webkitRequestFullscreen();
+            } else if (iframe.msRequestFullscreen) {
+                iframe.msRequestFullscreen();
+            }
+        }
+
+        function toggleIframe() {
+            let iframe = document.getElementById("embedFrame");
+            let inputBox = document.getElementById("urlBox");
+            let input = document.getElementById("urlInput");
+
+            if (showingDiscord) {
+                iframe.style.display = "none";
+                inputBox.style.display = "flex";
+                input.value = "";
+                input.focus();
+            } else {
+                iframe.style.display = "block";
+                inputBox.style.display = "none";
+                iframe.src = discordURL; // discord iframe
+            }
+            showingDiscord = !showingDiscord;
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === "Enter") {
+                let url = document.getElementById("urlInput").value.trim();
+                if (url) {
+                    let iframe = document.getElementById("embedFrame");
+                    iframe.src = `https://${url}`;
+                    iframe.style.display = "block";
+                    document.getElementById("urlBox").style.display = "none";
+                    showingDiscord = false;
+                }
+            }
+        }
+    </script>
+</body>
+</html>
+
+<p style="font-size:12*px;color:white;text-align: center;">[NOTHING THAT YOU DO ON DISCORD IS MY FAULT!!!! YOU ARE THE ONE RESPONSIBLE FOR SENDING MESSAGES!!!]</p>
