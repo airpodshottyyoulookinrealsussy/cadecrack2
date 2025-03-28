@@ -132,8 +132,16 @@
         <input type="text" id="urlInput" placeholder="example.com" onkeypress="handleKeyPress(event)">
     </div>
 
-    document.getElementById("urlBox").style.display = "none";
+<script>
+    function hideUrlBox() {
+        var urlBox = document.getElementById("urlBox");
+        if (urlBox) {
+            urlBox.style.display = "none";
+        }
+    }
 
+    hideUrlBox();
+</script>
 
     <div class="buttons">
         <button class="fs-button" onclick="toggleFullscreen()">FULLSCREEN</button>
