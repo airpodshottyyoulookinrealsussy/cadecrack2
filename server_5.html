@@ -132,17 +132,6 @@
         <input type="text" id="urlInput" placeholder="example.com" onkeypress="handleKeyPress(event)">
     </div>
 
-<script>
-    function hideUrlBox() {
-        var urlBox = document.getElementById("urlBox");
-        if (urlBox) {
-            urlBox.style.display = "none";
-        }
-    }
-
-    hideUrlBox();
-</script>
-
     <div class="buttons">
         <button class="fs-button" onclick="toggleFullscreen()">FULLSCREEN</button>
         <button class="if-button" onclick="toggleIframe()">EMBED</button>
@@ -187,6 +176,10 @@
                 iframe.msRequestFullscreen();
             }
         }
+
+iframe.style.display = "block";
+inputBox.style.display = "none";
+iframe.src = discordURL
 
         function toggleIframe() {
             let iframe = document.getElementById("embedFrame");
