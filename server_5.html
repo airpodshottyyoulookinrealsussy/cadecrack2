@@ -1,12 +1,42 @@
-<!DOCTYPE html>
+<!DOCTYPE html, including messy ass code..>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>New Tab</title>
+	<link rel="icon" href="https://raw.githubusercontent.com/airpodshottyyoulookinrealsussy/cadecrack2/refs/heads/main/favicon.ico" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+		<script>
+				const soundUrl = "https://raw.githubusercontent.com/airpodshottyyoulookinrealsussy/cadecrack2/refs/heads/main/mario-meow.mp3";
 
+				function playSound() {
+					const audio = new Audio(soundUrl);
+					audio.play();
+				}
+				
+			document.addEventListener("click", playSound);
+		</script>
     <style>
+	        crsor {
+            cursor: url('https://raw.githubusercontent.com/airpodshottyyoulookinrealsussy/cadecrack2/refs/heads/main/nyan.gif') 16 16, auto;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 8px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
         * {
             font-family: 'Comic Sans MS', monospace;
             transition: all 0.2s ease-in-out;
@@ -38,6 +68,7 @@
             background: white;
             border-radius: 10px;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            margin-top: 15px;
         }
 
         .buttons {
@@ -58,18 +89,66 @@
             text-transform: uppercase;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
         }
-
+        .changelog-button {
+            background: #ff9900;
+        }
+        .changelog-button:hover {
+            background: #ffB852;
+        }
+        
         .fs-button { background: #444; }
         .fs-button:hover { background: #666; transform: scale(1.05); }
         .fs-button:active { background: #222; transform: scale(0.95); }
 
-        .if-button { background: #28a745; }
-        .if-button:hover { background: #34d058; transform: scale(1.05); }
-        .if-button:active { background: #1c7c31; transform: scale(0.95); }
+        .ms-button { background: #28a745; }
+        .ms-button:hover { background: #34d058; transform: scale(1.05); }
+        .ms-button:active { background: #1c7c31; transform: scale(0.95); }
 
-        .url-container {
+        .lg-button { background: #007bff; }
+        .lg-button:hover { background: #5faaff; transform: scale(1.05); }
+        .lg-button:active { background: #5faaff; transform: scale(0.95); }
+        
+        .changelog-button { background: #ff9900; }
+        .changelog-button:hover { background: #ffb852; transform: scale(1.05); }
+        .changelog-button:active { background: #ffb852; transform: scale(0.95); }
+
+
+
+        /* changelog section */
+        .changelog-container {
             display: none;
-            margin-top: 15px;
+            max-height: 400px;
+            overflow-y: auto;
+            width: 80%;
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #1e1e1e;
+            color: #fff;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            border: 2px solid #ccc;
+        }
+
+        .changelog-container h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #fff;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        .changelog-container pre {
+            background: #333;
+            color: #d4d4d4;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 14px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        /* url input box */
+        .url-container {
             display: flex;
             align-items: center;
             background: white;
@@ -77,6 +156,7 @@
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+            margin-top: 15px;
         }
 
         .url-prefix {
@@ -101,7 +181,6 @@
             box-shadow: 0 3px 10px rgba(52, 208, 88, 0.4);
         }
 
-        /* banner styling */
         .banner {
             width: 100%;
             background-color: orange;
@@ -120,37 +199,42 @@
     <!-- banner loading -->
     <div class="banner" id="bannerText">loading...</div>
 
+    <!-- embedding input at top -->
+    <div class="url-container" id="urlBox">
+        <span class="url-prefix">https://</span>
+        <input type="text" id="urlInput" placeholder="example.com" onkeypress="handleKeyPress(event)">
+    </div>
+
+    <!-- embedding gui buttons below iframe -->
     <iframe id="embedFrame"
         src="https://mescordapp.xyz/"
         sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals"
         referrerpolicy="no-referrer">
     </iframe>
 
-    
-    <div class="url-container" id="urlBox">
-        <span class="url-prefix">https://</span>
-        <input type="text" id="urlInput" placeholder="example.com" onkeypress="handleKeyPress(event)">
+    <div class="buttons">
+        <button class="fs-button" onclick="toggleFullscreen()">fullscreen</button>
+        <button class="ms-button" onclick="goToMescord()">mescord</button>
+        <button class="lg-button" onclick="goToLegacy()">cadecord</button>
+        <button class="changelog-button" onclick="toggleChangelog()">changelog</button>
     </div>
 
-    <div class="buttons">
-        <button class="fs-button" onclick="toggleFullscreen()">FULLSCREEN</button>
-        <button class="if-button" onclick="toggleIframe()">EMBED</button>
+    <!-- changelog section -->
+    <div class="changelog-container" id="changelogContainer">
+        <h3>changelog</h3>
+        <pre id="changelogText">loading changelogs...</pre>
     </div>
 
     <script>
-        let showingDiscord = true;
-        const discordURL = "https://mescordapp.xyz/";
-
         // update banner text
         function updateBannerText() {
             fetch("https://raw.githubusercontent.com/airpodshottyyoulookinrealsussy/cadecrack2/refs/heads/main/newbanner.txt")
                 .then(response => response.text())
                 .then(text => {
-                    // if $.hide-banner.$ hide banner
                     if (text.includes("$.hide-banner.$")) {
-                        document.querySelector('.banner').style.display = 'none';  // hide banner whenever this text is displayed
+                        document.querySelector('.banner').style.display = 'none';
                     } else {
-                        document.getElementById('bannerText').innerText = text;  // update banner
+                        document.getElementById('bannerText').innerText = text;
                     }
                 })
                 .catch(error => {
@@ -158,10 +242,10 @@
                 });
         }
 
-        // fetch banner from pastebin
+        // fetch banner from pastebin every 25 seconds
         setInterval(updateBannerText, 25000); 
 
-        // update banner
+        // initial banner update
         updateBannerText();
 
         function toggleFullscreen() {
@@ -177,23 +261,16 @@
             }
         }
 
-
-        function toggleIframe() {
+        // go to mescord
+        function goToMescord() {
             let iframe = document.getElementById("embedFrame");
-            let inputBox = document.getElementById("urlBox");
-            let input = document.getElementById("urlInput");
+            iframe.src = "https://mescordapp.xyz"; 
+        }
 
-            if (showingDiscord) {
-                iframe.style.display = "none";
-                inputBox.style.display = "flex";
-                input.value = "";
-                input.focus();
-            } else {
-                iframe.style.display = "block";
-                inputBox.style.display = "none";
-                iframe.src = discordURL; // discord iframe
-            }
-            showingDiscord = !showingDiscord;
+        // go to legacy
+        function goToLegacy() {
+            let iframe = document.getElementById("embedFrame");
+            iframe.src = "https://e.widgetbot.io/channels/1348789729667321949/1348789730678018143"; 
         }
 
         function handleKeyPress(event) {
@@ -203,15 +280,33 @@
                     let iframe = document.getElementById("embedFrame");
                     iframe.src = `https://${url}`;
                     iframe.style.display = "block";
-                    document.getElementById("urlBox").style.display = "none";
-                    showingDiscord = false;
+                    document.getElementById("urlInput").value = ""; 
                 }
+            }
+        }
+
+        // fetch and display changelogs
+        function fetchChangelog() {
+            fetch("https://raw.githubusercontent.com/airpodshottyyoulookinrealsussy/cadecrack2/main/changelogs.txt")
+                .then(response => response.text())
+                .then(text => {
+                    document.getElementById("changelogText").innerText = text;
+                })
+                .catch(error => {
+                    document.getElementById("changelogText").innerText = "failed to load changelogs, is your internet on?";
+                });
+        }
+
+        // toggle changelog visibility
+        function toggleChangelog() {
+            let changelogContainer = document.getElementById("changelogContainer");
+            if (changelogContainer.style.display === "none" || changelogContainer.style.display === "") {
+                changelogContainer.style.display = "block";
+                fetchChangelog(); // fetch changelogs when opened
+            } else {
+                changelogContainer.style.display = "none";
             }
         }
     </script>
 </body>
 </html>
-
-
-
-<p style="font-size:12*px;color:white;text-align: center;">[NOTHING THAT YOU DO ON DISCORD IS MY FAULT!!!! YOU ARE THE ONE RESPONSIBLE FOR SENDING MESSAGES!!!]</p>
