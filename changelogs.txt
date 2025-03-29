@@ -1,4 +1,9 @@
 0.0.1 - discord (through widgetbot) added
+------------------------------------------------
 0.0.2 - embed mode, banner added, generally looks better
+------------------------------------------------
 0.0.3 - experimental update, using mescordapp.xyz
+------------------------------------------------
 0.0.4 - changelogs added, automatic updating.
+------------------------------------------------
+0.0.5 - meow! and widgetbot was added back
