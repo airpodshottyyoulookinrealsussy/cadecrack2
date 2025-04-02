@@ -7,3 +7,5 @@
 0.0.4 - changelogs added, automatic updating.
 ------------------------------------------------
 0.0.5 - meow! and widgetbot was added back
+------------------------------------------------
+0.0.6 - cooler visual appearance, and ability to hide banner
