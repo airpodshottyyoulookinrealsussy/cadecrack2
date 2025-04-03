@@ -53,7 +53,7 @@
             height: 100%;
             background-size: 100px;
             background-repeat: repeat;
-            opacity: 0.1; 
+            opacity: 0.1;
             z-index: -1;
             animation: slideBackground 20s linear infinite;
             transition: opacity 0.3s ease;
@@ -145,6 +145,13 @@
             max-width: 1100px;
         }
 
+        .navigation-container {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
         .url-container {
             display: flex;
             align-items: center;
@@ -153,8 +160,29 @@
             overflow: hidden;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
             width: 100%;
-            margin-bottom: 20px;
             border: 2px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .nav-button {
+            background: #f0f0f0;
+            padding: 15px;
+            font-size: 16px;
+            color: #555;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-right: 1px solid #ddd;
+        }
+
+        .nav-button:hover {
+            background: #e0e0e0;
+        }
+
+        .nav-button:active {
+            background: #d0d0d0;
         }
 
         .url-prefix {
@@ -382,6 +410,7 @@
         input:checked + .slider:before {
             transform: translateX(26px);
         }
+
         .range-slider {
             -webkit-appearance: none;
             width: 100%;
@@ -474,7 +503,6 @@
             background: #555;
         }
 
-
         @media (max-width: 768px) {
             .container {
                 width: 95%;
@@ -514,9 +542,14 @@
     <button class="show-banner-btn" id="showBannerBtn" onclick="showBanner()">↓</button>
 
     <div class="container">
-        <div class="url-container" id="urlBox">
-            <span class="url-prefix">https://</span>
-            <input type="text" id="urlInput" placeholder="Enter website URL..." onkeypress="handleKeyPress(event)">
+        <div class="navigation-container">
+            <div class="url-container" id="urlBox">
+                <button class="nav-button" onclick="goBack()">&#8592;</button>
+                <button class="nav-button" onclick="goForward()">&#8594;</button>
+                <button class="nav-button" onclick="refreshFrame()">&#8635;</button>
+                <span class="url-prefix">https://</span>
+                <input type="text" id="urlInput" placeholder="Enter website URL..." onkeypress="handleKeyPress(event)">
+            </div>
         </div>
 
         <iframe id="embedFrame"
@@ -529,7 +562,6 @@
             <button class="fs-button" onclick="toggleFullscreen()">Fullscreen</button>
             <button class="ms-button" onclick="goToMescord()">Mescord</button>
             <button class="lg-button" onclick="goToLegacy()">Cadecord</button>
-            <button class="refresh-button" onclick="refreshFrame()">Refresh</button>
             <button class="changelog-button" onclick="toggleChangelog()">Changelog</button>
             <button class="settings-button" onclick="toggleSettings()">Settings</button>
         </div>
@@ -556,13 +588,11 @@
             <input type="range" min="0" max="100" value="10" class="range-slider" id="transparencySlider">
         </div>
         
-
         <div class="settings-option">
             <span class="settings-option-title">Background Theme</span>
             <button class="plinko-button" id="plinkoButton">PLINK CAT</button>
         </div>
     </div>
-
 
     <div class="overlay-panel changelog-panel" id="changelogPanel">
         <div class="panel-header">
@@ -573,14 +603,12 @@
     </div>
 
     <script>
-
         const defaultBgUrl = 'https://static.wikia.nocookie.net/silly-cat/images/3/36/Ah_So_Cat.png/revision/latest?cb=20231003075048';
         const plinkoBgUrl = 'https://raw.githubusercontent.com/airpodshottyyoulookinrealsussy/cadecrack2/refs/heads/main/plink-cat-plink.gif';
         
-
         let isPlinkoMode = false;
         document.getElementById('catBackground').style.backgroundImage = `url('${defaultBgUrl}')`;
-
+        
         function updateBannerText() {
             fetch("https://raw.githubusercontent.com/airpodshottyyoulookinrealsussy/cadecrack2/refs/heads/main/newbanner.txt")
                 .then(response => response.text())
@@ -596,11 +624,8 @@
                 });
         }
 
-    
         setInterval(updateBannerText, 25000); 
-        
         updateBannerText();
-
 
         function toggleBanner() {
             hideBanner();
@@ -610,7 +635,6 @@
             document.getElementById('bannerContainer').classList.add('hidden');
             document.body.classList.add('banner-hidden');
             document.getElementById('showBannerBtn').classList.add('visible');
-            
             localStorage.setItem('bannerHidden', 'true');
         }
 
@@ -618,7 +642,6 @@
             document.getElementById('bannerContainer').classList.remove('hidden');
             document.body.classList.remove('banner-hidden');
             document.getElementById('showBannerBtn').classList.remove('visible');
-            
             localStorage.setItem('bannerHidden', 'false');
         }
         
@@ -629,7 +652,6 @@
             if (settingsPanel.style.display === 'none' || settingsPanel.style.display === '') {
                 settingsPanel.style.display = 'block';
                 overlay.style.display = 'block';
-                
                 document.getElementById('changelogPanel').style.display = 'none';
             } else {
                 settingsPanel.style.display = 'none';
@@ -644,9 +666,7 @@
             if (changelogPanel.style.display === 'none' || changelogPanel.style.display === '') {
                 changelogPanel.style.display = 'block';
                 overlay.style.display = 'block';
-                fetchChangelog(); 
-                
-
+                fetchChangelog();
                 document.getElementById('settingsPanel').style.display = 'none';
             } else {
                 changelogPanel.style.display = 'none';
@@ -685,6 +705,14 @@
         function refreshFrame() {
             const iframe = document.getElementById('embedFrame');
             iframe.src = iframe.src;
+        }
+        
+        function goBack() {
+            document.getElementById('embedFrame').contentWindow.history.back();
+        }
+        
+        function goForward() {
+            document.getElementById('embedFrame').contentWindow.history.forward();
         }
 
         window.addEventListener('DOMContentLoaded', () => {
@@ -730,7 +758,6 @@
             iframe.src = "https://mescordapp.xyz"; 
         }
 
-        // Go to Legacy
         function goToLegacy() {
             let iframe = document.getElementById("embedFrame");
             iframe.src = "https://e.widgetbot.io/channels/1348789729667321949/1348789730678018143"; 
