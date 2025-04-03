@@ -7,7 +7,6 @@
     <link rel="icon" href="https://raw.githubusercontent.com/airpodshottyyoulookinrealsussy/cadecrack2/refs/heads/main/favicon.ico" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <script>
-
         let soundEnabled = true;
         const soundUrl = "https://raw.githubusercontent.com/airpodshottyyoulookinrealsussy/cadecrack2/refs/heads/main/mario-meow.mp3";
 
@@ -38,7 +37,7 @@
             background: linear-gradient(135deg, #8BC6EC 0%, #9599E2 100%);
             position: relative;
             overflow-x: hidden;
-            padding-top: 50px; 
+            padding-top: 50px;
             transition: padding-top 0.3s ease;
         }
 
@@ -231,6 +230,10 @@
         .settings-button {
             background: linear-gradient(135deg, #9733EE 0%, #DA22FF 100%);
         }
+        
+        .refresh-button {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
 
         button:hover {
             transform: translateY(-3px);
@@ -242,42 +245,7 @@
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
         }
 
-        .changelog-container {
-            display: none;
-            max-height: 400px;
-            overflow-y: auto;
-            width: 100%;
-            padding: 25px;
-            border-radius: 12px;
-            background-color: #fff;
-            color: #333;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-            border: 1px solid rgba(0, 0, 0, 0.05);
-        }
-
-        .changelog-container h3 {
-            font-size: 22px;
-            margin-bottom: 15px;
-            color: #333;
-            text-transform: uppercase;
-            text-align: center;
-            letter-spacing: 1px;
-        }
-
-        .changelog-container pre {
-            background: #f6f8fa;
-            color: #333;
-            padding: 20px;
-            border-radius: 8px;
-            font-size: 14px;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            border: 1px solid #eaeaea;
-            font-family: 'Consolas', monospace;
-        }
-
-
-        .settings-panel {
+        .overlay-panel {
             display: none;
             position: fixed;
             top: 50%;
@@ -293,12 +261,32 @@
             animation: fadeIn 0.3s ease;
         }
 
+        .changelog-panel {
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .changelog-content {
+            background: #f6f8fa;
+            color: #333;
+            padding: 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            border: 1px solid #eaeaea;
+            font-family: 'Consolas', monospace;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translate(-50%, -55%); }
             to { opacity: 1; transform: translate(-50%, -50%); }
         }
 
-        .settings-header {
+        .panel-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -307,13 +295,13 @@
             border-bottom: 1px solid #eee;
         }
 
-        .settings-title {
+        .panel-title {
             font-size: 20px;
             font-weight: 600;
             color: #333;
         }
 
-        .settings-close {
+        .panel-close {
             background: #f0f0f0;
             border: none;
             border-radius: 50%;
@@ -330,7 +318,7 @@
             padding: 0;
         }
 
-        .settings-close:hover {
+        .panel-close:hover {
             background: #e0e0e0;
             transform: rotate(90deg);
         }
@@ -394,7 +382,6 @@
         input:checked + .slider:before {
             transform: translateX(26px);
         }
-
         .range-slider {
             -webkit-appearance: none;
             width: 100%;
@@ -447,7 +434,6 @@
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
         }
 
-
         .overlay {
             position: fixed;
             top: 0;
@@ -466,26 +452,25 @@
             to { opacity: 1; }
         }
 
-
-        .changelog-container::-webkit-scrollbar,
-        .settings-panel::-webkit-scrollbar {
+        .overlay-panel::-webkit-scrollbar,
+        .changelog-content::-webkit-scrollbar {
             width: 8px;
         }
 
-        .changelog-container::-webkit-scrollbar-track,
-        .settings-panel::-webkit-scrollbar-track {
+        .overlay-panel::-webkit-scrollbar-track,
+        .changelog-content::-webkit-scrollbar-track {
             background: #f1f1f1;
             border-radius: 4px;
         }
 
-        .changelog-container::-webkit-scrollbar-thumb,
-        .settings-panel::-webkit-scrollbar-thumb {
+        .overlay-panel::-webkit-scrollbar-thumb,
+        .changelog-content::-webkit-scrollbar-thumb {
             background: #888;
             border-radius: 4px;
         }
 
-        .changelog-container::-webkit-scrollbar-thumb:hover,
-        .settings-panel::-webkit-scrollbar-thumb:hover {
+        .overlay-panel::-webkit-scrollbar-thumb:hover,
+        .changelog-content::-webkit-scrollbar-thumb:hover {
             background: #555;
         }
 
@@ -509,7 +494,7 @@
                 font-size: 14px;
             }
             
-            .settings-panel {
+            .overlay-panel {
                 width: 95%;
                 padding: 20px;
             }
@@ -519,7 +504,6 @@
 <body>
     <div class="cat-background" id="catBackground"></div>
     
-    <!-- Banner -->
     <div class="banner" id="bannerContainer">
         <span id="bannerText">loading...</span>
         <div class="banner-toggle" onclick="toggleBanner()">
@@ -527,48 +511,38 @@
         </div>
     </div>
     
-    <!-- Show banner button -->
     <button class="show-banner-btn" id="showBannerBtn" onclick="showBanner()">↓</button>
 
     <div class="container">
-        <!-- URL Input -->
         <div class="url-container" id="urlBox">
             <span class="url-prefix">https://</span>
             <input type="text" id="urlInput" placeholder="Enter website URL..." onkeypress="handleKeyPress(event)">
         </div>
 
-        <!-- Iframe for embedding content -->
         <iframe id="embedFrame"
             src="https://mescordapp.xyz/"
             sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals"
             referrerpolicy="no-referrer">
         </iframe>
 
-        <!-- Buttons -->
         <div class="buttons">
             <button class="fs-button" onclick="toggleFullscreen()">Fullscreen</button>
             <button class="ms-button" onclick="goToMescord()">Mescord</button>
             <button class="lg-button" onclick="goToLegacy()">Cadecord</button>
+            <button class="refresh-button" onclick="refreshFrame()">Refresh</button>
             <button class="changelog-button" onclick="toggleChangelog()">Changelog</button>
             <button class="settings-button" onclick="toggleSettings()">Settings</button>
         </div>
-
-        <!-- Changelog Container -->
-        <div class="changelog-container" id="changelogContainer">
-            <h3>Changelog</h3>
-            <pre id="changelogText">Loading changelogs...</pre>
-        </div>
     </div>
     
-    <!-- Settings Panel -->
     <div class="overlay" id="overlay"></div>
-    <div class="settings-panel" id="settingsPanel">
-        <div class="settings-header">
-            <span class="settings-title">Settings</span>
-            <button class="settings-close" onclick="toggleSettings()">×</button>
+    
+    <div class="overlay-panel" id="settingsPanel">
+        <div class="panel-header">
+            <span class="panel-title">Settings</span>
+            <button class="panel-close" onclick="toggleSettings()">×</button>
         </div>
         
-        <!-- Sound Toggle -->
         <div class="settings-option">
             <span class="settings-option-title">Meow Sound</span>
             <label class="switch">
@@ -577,17 +551,25 @@
             </label>
         </div>
         
-        <!-- Background Transparency -->
         <div class="settings-option">
             <span class="settings-option-title">Background Transparency: <span id="transparencyValue">10%</span></span>
             <input type="range" min="0" max="100" value="10" class="range-slider" id="transparencySlider">
         </div>
         
-        <!-- Plinko Cat Toggle -->
+
         <div class="settings-option">
             <span class="settings-option-title">Background Theme</span>
-            <button class="plinko-button" id="plinkoButton">Plinko Cat</button>
+            <button class="plinko-button" id="plinkoButton">PLINK CAT</button>
         </div>
+    </div>
+
+
+    <div class="overlay-panel changelog-panel" id="changelogPanel">
+        <div class="panel-header">
+            <span class="panel-title">Changelog</span>
+            <button class="panel-close" onclick="toggleChangelog()">×</button>
+        </div>
+        <div class="changelog-content" id="changelogText">Loading changelogs...</div>
     </div>
 
     <script>
@@ -598,7 +580,6 @@
 
         let isPlinkoMode = false;
         document.getElementById('catBackground').style.backgroundImage = `url('${defaultBgUrl}')`;
-        
 
         function updateBannerText() {
             fetch("https://raw.githubusercontent.com/airpodshottyyoulookinrealsussy/cadecrack2/refs/heads/main/newbanner.txt")
@@ -615,9 +596,11 @@
                 });
         }
 
+    
         setInterval(updateBannerText, 25000); 
-
+        
         updateBannerText();
+
 
         function toggleBanner() {
             hideBanner();
@@ -639,7 +622,6 @@
             localStorage.setItem('bannerHidden', 'false');
         }
         
-
         function toggleSettings() {
             const settingsPanel = document.getElementById('settingsPanel');
             const overlay = document.getElementById('overlay');
@@ -647,12 +629,30 @@
             if (settingsPanel.style.display === 'none' || settingsPanel.style.display === '') {
                 settingsPanel.style.display = 'block';
                 overlay.style.display = 'block';
+                
+                document.getElementById('changelogPanel').style.display = 'none';
             } else {
                 settingsPanel.style.display = 'none';
                 overlay.style.display = 'none';
             }
         }
+        
+        function toggleChangelog() {
+            const changelogPanel = document.getElementById('changelogPanel');
+            const overlay = document.getElementById('overlay');
+            
+            if (changelogPanel.style.display === 'none' || changelogPanel.style.display === '') {
+                changelogPanel.style.display = 'block';
+                overlay.style.display = 'block';
+                fetchChangelog(); 
+                
 
+                document.getElementById('settingsPanel').style.display = 'none';
+            } else {
+                changelogPanel.style.display = 'none';
+                overlay.style.display = 'none';
+            }
+        }
 
         document.getElementById('soundToggle').addEventListener('change', function() {
             soundEnabled = this.checked;
@@ -673,29 +673,30 @@
             
             if (isPlinkoMode) {
                 bgElement.style.backgroundImage = `url('${plinkoBgUrl}')`;
-                this.textContent = 'Regular Cat';
+                this.textContent = 'AH SO CAT';
             } else {
                 bgElement.style.backgroundImage = `url('${defaultBgUrl}')`;
-                this.textContent = 'Plink Cat';
+                this.textContent = 'PLINK CAT';
             }
             
             localStorage.setItem('isPlinkoMode', isPlinkoMode.toString());
         });
 
+        function refreshFrame() {
+            const iframe = document.getElementById('embedFrame');
+            iframe.src = iframe.src;
+        }
 
         window.addEventListener('DOMContentLoaded', () => {
-
             if (localStorage.getItem('bannerHidden') === 'true') {
                 hideBanner();
             }
             
-
             if (localStorage.getItem('soundEnabled') === 'false') {
                 soundEnabled = false;
                 document.getElementById('soundToggle').checked = false;
             }
             
-
             const savedTransparency = localStorage.getItem('bgTransparency');
             if (savedTransparency !== null) {
                 const value = parseInt(savedTransparency);
@@ -704,11 +705,10 @@
                 document.getElementById('catBackground').style.opacity = value / 100;
             }
             
-
             if (localStorage.getItem('isPlinkoMode') === 'true') {
                 isPlinkoMode = true;
                 document.getElementById('catBackground').style.backgroundImage = `url('${plinkoBgUrl}')`;
-                document.getElementById('plinkoButton').textContent = 'Regular Cat';
+                document.getElementById('plinkoButton').textContent = 'AH SO CAT';
             }
         });
 
@@ -725,18 +725,16 @@
             }
         }
 
-
         function goToMescord() {
             let iframe = document.getElementById("embedFrame");
             iframe.src = "https://mescordapp.xyz"; 
         }
 
-
+        // Go to Legacy
         function goToLegacy() {
             let iframe = document.getElementById("embedFrame");
             iframe.src = "https://e.widgetbot.io/channels/1348789729667321949/1348789730678018143"; 
         }
-
 
         function handleKeyPress(event) {
             if (event.key === "Enter") {
@@ -749,7 +747,6 @@
             }
         }
 
-
         function fetchChangelog() {
             fetch("https://raw.githubusercontent.com/airpodshottyyoulookinrealsussy/cadecrack2/main/changelogs.txt")
                 .then(response => response.text())
@@ -761,19 +758,9 @@
                 });
         }
 
-
-        function toggleChangelog() {
-            let changelogContainer = document.getElementById("changelogContainer");
-            if (changelogContainer.style.display === "none" || changelogContainer.style.display === "") {
-                changelogContainer.style.display = "block";
-                fetchChangelog(); 
-            } else {
-                changelogContainer.style.display = "none";
-            }
-        }
-
         document.getElementById('overlay').addEventListener('click', function() {
             document.getElementById('settingsPanel').style.display = 'none';
+            document.getElementById('changelogPanel').style.display = 'none';
             this.style.display = 'none';
         });
     </script>
