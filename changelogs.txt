@@ -9,3 +9,5 @@
 0.0.5 - meow! and widgetbot was added back
 ------------------------------------------------
 0.0.6 - cooler visual appearance, and ability to hide banner, settings, and some other stuff i forgor
+------------------------------------------------
+0.0.7 - refresh button, made changelogs an overlay instead of a popup
