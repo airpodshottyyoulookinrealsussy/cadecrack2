@@ -263,6 +263,10 @@
             background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
         }
 
+        .experimental-button {
+            background: linear-gradient(135deg, #bc4e9c 0%, #f80759 100%);
+        }
+
         button:hover {
             transform: translateY(-3px);
             box-shadow: 0 7px 20px rgba(0, 0, 0, 0.2);
@@ -502,6 +506,83 @@
         .changelog-content::-webkit-scrollbar-thumb:hover {
             background: #555;
         }
+        
+        /* Experimental Panel Styles */
+        .experimental-panel {
+            max-width: 500px;
+        }
+        
+        .password-container {
+            margin-bottom: 20px;
+        }
+        
+        #passwordInput {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        
+        #passwordSubmit {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #bc4e9c 0%, #f80759 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        #passwordSubmit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        #experimentalButtons {
+            display: none;
+            margin-top: 20px;
+        }
+        
+        .exp-button-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .exp-button {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .noguardian-button {
+            background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
+        }
+        
+        .exp-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .error-message {
+            color: #ff416c;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
 
         @media (max-width: 768px) {
             .container {
@@ -564,6 +645,7 @@
             <button class="lg-button" onclick="goToLegacy()">Cadecord</button>
             <button class="changelog-button" onclick="toggleChangelog()">Changelog</button>
             <button class="settings-button" onclick="toggleSettings()">Settings</button>
+            <button class="experimental-button" onclick="toggleExperimental()">Experimental</button>
         </div>
     </div>
     
@@ -600,6 +682,29 @@
             <button class="panel-close" onclick="toggleChangelog()">×</button>
         </div>
         <div class="changelog-content" id="changelogText">Loading changelogs...</div>
+    </div>
+    
+    <!-- Experimental Panel -->
+    <div class="overlay-panel experimental-panel" id="experimentalPanel">
+        <div class="panel-header">
+            <span class="panel-title">Experimental Features</span>
+            <button class="panel-close" onclick="toggleExperimental()">×</button>
+        </div>
+        
+        <div class="password-container" id="passwordContainer">
+            <p style="margin-bottom: 15px; color: #555;">Enter the password to access experimental features:</p>
+            <input type="password" id="passwordInput" placeholder="Enter password...">
+            <p class="error-message" id="passwordError">Incorrect password. Please try again.</p>
+            <button id="passwordSubmit" onclick="checkPassword()">Submit</button>
+        </div>
+        
+        <div id="experimentalButtons">
+            <p style="margin-bottom: 15px; color: #555;">Experimental features unlocked. Use with caution.</p>
+            <div class="exp-button-container">
+                <button class="exp-button noguardian-button" onclick="openNoGuardian()">NoGuardian</button>
+                <!-- Additional experimental buttons can be added here -->
+            </div>
+        </div>
     </div>
 
     <script>
@@ -653,6 +758,7 @@
                 settingsPanel.style.display = 'block';
                 overlay.style.display = 'block';
                 document.getElementById('changelogPanel').style.display = 'none';
+                document.getElementById('experimentalPanel').style.display = 'none';
             } else {
                 settingsPanel.style.display = 'none';
                 overlay.style.display = 'none';
@@ -668,10 +774,59 @@
                 overlay.style.display = 'block';
                 fetchChangelog();
                 document.getElementById('settingsPanel').style.display = 'none';
+                document.getElementById('experimentalPanel').style.display = 'none';
             } else {
                 changelogPanel.style.display = 'none';
                 overlay.style.display = 'none';
             }
+        }
+        
+        function toggleExperimental() {
+            const experimentalPanel = document.getElementById('experimentalPanel');
+            const overlay = document.getElementById('overlay');
+            
+            if (experimentalPanel.style.display === 'none' || experimentalPanel.style.display === '') {
+                experimentalPanel.style.display = 'block';
+                overlay.style.display = 'block';
+                document.getElementById('settingsPanel').style.display = 'none';
+                document.getElementById('changelogPanel').style.display = 'none';
+                
+                // Reset password input and hide error message
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('passwordError').style.display = 'none';
+                
+                // Check if user has already entered correct password in this session
+                if (sessionStorage.getItem('experimentalUnlocked') === 'true') {
+                    document.getElementById('passwordContainer').style.display = 'none';
+                    document.getElementById('experimentalButtons').style.display = 'block';
+                } else {
+                    document.getElementById('passwordContainer').style.display = 'block';
+                    document.getElementById('experimentalButtons').style.display = 'none';
+                }
+            } else {
+                experimentalPanel.style.display = 'none';
+                overlay.style.display = 'none';
+            }
+        }
+        
+        function checkPassword() {
+            const password = document.getElementById('passwordInput').value;
+            const correctPassword = 'cade21';
+            
+            if (password === correctPassword) {
+                document.getElementById('passwordContainer').style.display = 'none';
+                document.getElementById('experimentalButtons').style.display = 'block';
+                document.getElementById('passwordError').style.display = 'none';
+                
+                // Save unlock state for this session
+                sessionStorage.setItem('experimentalUnlocked', 'true');
+            } else {
+                document.getElementById('passwordError').style.display = 'block';
+            }
+        }
+        
+        function openNoGuardian() {
+            window.open("https://drive.usercontent.google.com/u/0/uc?id=1kCBHBHIWp01DTf5SpIjDAy9tVYpSp5kH&export=download", "_blank");
         }
 
         document.getElementById('soundToggle').addEventListener('change', function() {
@@ -755,7 +910,7 @@
 
         function goToMescord() {
             let iframe = document.getElementById("embedFrame");
-            iframe.src = "https://mescordapp.xyz"; 
+            iframe.src = regularUrl; 
         }
 
         function goToLegacy() {
