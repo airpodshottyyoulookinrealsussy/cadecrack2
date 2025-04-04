@@ -11,3 +11,5 @@
 0.0.6 - cooler visual appearance, and ability to hide banner, settings, and some other stuff i forgor
 ------------------------------------------------
 0.0.7 - navagation buttons,changelog overlay, mispellings
+------------------------------------------------
+0.0.8 - experimental settings only for trusted users, idek sum bug fixes
